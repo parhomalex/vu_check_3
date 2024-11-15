@@ -1,4 +1,4 @@
-from f_core import find_coords, find_multiple_names, find_move, type_string, press_key
+from f_core import find_coords, find_multiple_names, find_move, type_string, press_key, check_is_element
 from brw import brw_run_new_tab, brw_is_page_reloaded, brw_close_active_tab
 from pyautogui import screenshot
 import tmp_path
@@ -26,6 +26,11 @@ def fb_is_side_menu(sec: int = 1):
 
 def fb_is_main_page(sec:int = 1):
     if fb_is_logo_on_screen(sec=sec) and fb_is_top_menu(sec=sec) and fb_is_side_menu(sec=sec):
+        check_is_element(template='templates/fb/test_elements/main_page_top_menu.png', element_name='main_page_top_menu',csv_file_name='tmp/is_elements.csv')
+        check_is_element(template='templates/fb/test_elements/top_right_menu.png',
+                         element_name='top_right_menu', csv_file_name='tmp/is_elements.csv')
+        check_is_element(template='templates/fb/test_elements/side_panel.png',
+                         element_name='side_panel', csv_file_name='tmp/is_elements.csv')
         return True
     return False
 
@@ -34,6 +39,10 @@ def fb_get_count_friends():
     if fotoX < 0 or fotoY < 0:
         return False
 
+    check_is_element(template='templates/fb/test_elements/profile_btn_menu.png', element_name='profile_btn_menu',
+                     csv_file_name='tmp/is_elements.csv')
+    check_is_element(template='templates/fb/test_elements/profile_main_menu.png', element_name='profile_main_menu',
+                     csv_file_name='tmp/is_elements.csv')
     if os.name == 'posix':
         region = ((fotoX*2)+50,(fotoY*2)-70,350,50)
     else:
@@ -92,6 +101,7 @@ def fb_login_vu(login:str, password:str):
 
 def fb_check_vu(login:str, password:str):
     if fb_is_logo_on_screen():
+
         return fb_get_vu_status()
     else:
         problem = fb_get_problem_name()
